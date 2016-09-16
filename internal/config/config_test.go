@@ -5,12 +5,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf/internal/models"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	"github.com/influxdata/telegraf/plugins/inputs/exec"
-	"github.com/influxdata/telegraf/plugins/inputs/memcached"
-	"github.com/influxdata/telegraf/plugins/inputs/procstat"
-	"github.com/influxdata/telegraf/plugins/parsers"
+	"github.com/mchuang3/telegraf/internal/models"
+	"github.com/mchuang3/telegraf/plugins/inputs"
+	"github.com/mchuang3/telegraf/plugins/inputs/exec"
+	"github.com/mchuang3/telegraf/plugins/inputs/memcached"
+	"github.com/mchuang3/telegraf/plugins/inputs/procstat"
+	"github.com/mchuang3/telegraf/plugins/parsers"
 
 	"github.com/stretchr/testify/assert"
 )

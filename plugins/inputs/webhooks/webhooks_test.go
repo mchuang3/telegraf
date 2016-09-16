@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/github"
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/rollbar"
+	"github.com/mchuang3/telegraf/plugins/inputs/webhooks/github"
+	"github.com/mchuang3/telegraf/plugins/inputs/webhooks/rollbar"
 )
 
 func TestAvailableWebhooks(t *testing.T) {

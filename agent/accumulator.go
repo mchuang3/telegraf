@@ -7,8 +7,8 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal/models"
+	"github.com/mchuang3/telegraf"
+	"github.com/mchuang3/telegraf/internal/models"
 )
 
 func NewAccumulator(

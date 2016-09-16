@@ -10,12 +10,12 @@ import (
 	"strings"
 	"syscall"
 
-	"github.com/influxdata/telegraf/agent"
-	"github.com/influxdata/telegraf/internal/config"
-	"github.com/influxdata/telegraf/plugins/inputs"
-	_ "github.com/influxdata/telegraf/plugins/inputs/all"
-	"github.com/influxdata/telegraf/plugins/outputs"
-	_ "github.com/influxdata/telegraf/plugins/outputs/all"
+	"github.com/mchuang3/telegraf/agent"
+	"github.com/mchuang3/telegraf/internal/config"
+	"github.com/mchuang3/telegraf/plugins/inputs"
+	_ "github.com/mchuang3/telegraf/plugins/inputs/all"
+	"github.com/mchuang3/telegraf/plugins/outputs"
+	_ "github.com/mchuang3/telegraf/plugins/outputs/all"
 	"github.com/kardianos/service"
 )
 

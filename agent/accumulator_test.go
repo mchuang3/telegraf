@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal/models"
+	"github.com/mchuang3/telegraf"
+	"github.com/mchuang3/telegraf/internal/models"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

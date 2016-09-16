@@ -7,13 +7,13 @@ import (
 	"reflect"
 
 	"github.com/gorilla/mux"
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/plugins/inputs"
+	"github.com/mchuang3/telegraf"
+	"github.com/mchuang3/telegraf/plugins/inputs"
 
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/filestack"
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/github"
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/mandrill"
-	"github.com/influxdata/telegraf/plugins/inputs/webhooks/rollbar"
+	"github.com/mchuang3/telegraf/plugins/inputs/webhooks/filestack"
+	"github.com/mchuang3/telegraf/plugins/inputs/webhooks/github"
+	"github.com/mchuang3/telegraf/plugins/inputs/webhooks/mandrill"
+	"github.com/mchuang3/telegraf/plugins/inputs/webhooks/rollbar"
 )
 
 type Webhook interface {

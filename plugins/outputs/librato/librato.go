@@ -9,10 +9,10 @@ import (
 	"net/http"
 	"regexp"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/outputs"
-	"github.com/influxdata/telegraf/plugins/serializers/graphite"
+	"github.com/mchuang3/telegraf"
+	"github.com/mchuang3/telegraf/internal"
+	"github.com/mchuang3/telegraf/plugins/outputs"
+	"github.com/mchuang3/telegraf/plugins/serializers/graphite"
 )
 
 // Librato structure for configuration and client

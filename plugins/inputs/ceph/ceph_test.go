@@ -2,7 +2,7 @@ package ceph
 
 import (
 	"fmt"
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/mchuang3/telegraf/testutil"
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
 	"os"

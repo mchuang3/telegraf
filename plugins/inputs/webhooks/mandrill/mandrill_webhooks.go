@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/influxdata/telegraf"
+	"github.com/mchuang3/telegraf"
 )
 
 type MandrillWebhook struct {

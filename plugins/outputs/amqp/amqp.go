@@ -8,10 +8,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/plugins/outputs"
-	"github.com/influxdata/telegraf/plugins/serializers"
+	"github.com/mchuang3/telegraf"
+	"github.com/mchuang3/telegraf/internal"
+	"github.com/mchuang3/telegraf/plugins/outputs"
+	"github.com/mchuang3/telegraf/plugins/serializers"
 
 	"github.com/streadway/amqp"
 )

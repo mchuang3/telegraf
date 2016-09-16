@@ -3,8 +3,8 @@ package buffer
 import (
 	"testing"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/testutil"
+	"github.com/mchuang3/telegraf"
+	"github.com/mchuang3/telegraf/testutil"
 
 	"github.com/stretchr/testify/assert"
 )

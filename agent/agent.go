@@ -8,10 +8,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/telegraf"
-	"github.com/influxdata/telegraf/internal"
-	"github.com/influxdata/telegraf/internal/config"
-	"github.com/influxdata/telegraf/internal/models"
+	"github.com/mchuang3/telegraf"
+	"github.com/mchuang3/telegraf/internal"
+	"github.com/mchuang3/telegraf/internal/config"
+	"github.com/mchuang3/telegraf/internal/models"
 )
 
 // Agent runs telegraf and collects data based on the given config

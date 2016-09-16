@@ -1,7 +1,7 @@
 package buffer
 
 import (
-	"github.com/influxdata/telegraf"
+	"github.com/mchuang3/telegraf"
 )
 
 // Buffer is an object for storing metrics in a circular buffer.

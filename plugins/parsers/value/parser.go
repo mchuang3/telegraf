@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/influxdata/telegraf"
+	"github.com/mchuang3/telegraf"
 )
 
 type ValueParser struct {

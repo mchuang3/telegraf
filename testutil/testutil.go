@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/influxdata/telegraf"
+	"github.com/mchuang3/telegraf"
 )
 
 var localhost = "localhost"
