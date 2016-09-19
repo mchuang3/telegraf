@@ -1,4 +1,4 @@
-package main
+package telegraf_main
 
 import (
 	"flag"
@@ -10,13 +10,13 @@ import (
 	"strings"
 	"syscall"
 
+	"github.com/kardianos/service"
 	"github.com/mchuang3/telegraf/agent"
 	"github.com/mchuang3/telegraf/internal/config"
 	"github.com/mchuang3/telegraf/plugins/inputs"
 	_ "github.com/mchuang3/telegraf/plugins/inputs/all"
 	"github.com/mchuang3/telegraf/plugins/outputs"
 	_ "github.com/mchuang3/telegraf/plugins/outputs/all"
-	"github.com/kardianos/service"
 )
 
 var fDebug = flag.Bool("debug", false,
@@ -301,7 +301,7 @@ func (p *program) Stop(s service.Service) error {
 	return nil
 }
 
-func main() {
+func Telegraf_Main() {
 	if runtime.GOOS == "windows" {
 		svcConfig = &service.Config{
 			Name:        "telegraf",
