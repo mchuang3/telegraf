@@ -3,7 +3,6 @@ package serializers
 import (
 	"github.com/mchuang3/telegraf"
 
-	"github.com/mchuang3/telegraf/plugins/serializers/graphite"
 	"github.com/mchuang3/telegraf/plugins/serializers/influx"
 	"github.com/mchuang3/telegraf/plugins/serializers/json"
 )
@@ -25,7 +24,7 @@ type Serializer interface {
 // Config is a struct that covers the data types needed for all serializer types,
 // and can be used to instantiate _any_ of the serializers.
 type Config struct {
-	// Dataformat can be one of: influx, graphite
+	// Dataformat can be one of: influx, json
 	DataFormat string
 
 	// Prefix to add to all measurements, only supports Graphite
@@ -43,8 +42,6 @@ func NewSerializer(config *Config) (Serializer, error) {
 	switch config.DataFormat {
 	case "influx":
 		serializer, err = NewInfluxSerializer()
-	case "graphite":
-		serializer, err = NewGraphiteSerializer(config.Prefix, config.Template)
 	case "json":
 		serializer, err = NewJsonSerializer()
 	}
@@ -57,11 +54,4 @@ func NewJsonSerializer() (Serializer, error) {
 
 func NewInfluxSerializer() (Serializer, error) {
 	return &influx.InfluxSerializer{}, nil
-}
-
-func NewGraphiteSerializer(prefix, template string) (Serializer, error) {
-	return &graphite.GraphiteSerializer{
-		Prefix:   prefix,
-		Template: template,
-	}, nil
 }
