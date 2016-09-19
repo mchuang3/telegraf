@@ -17,9 +17,9 @@ in the **[global_tags]** field in telegraf.conf:
  [global_tags]
    # dc = "us-east-1" # will tag all metrics with dc=us-east-1
    # rack = "1a"
+   switch = "b1668a18-7659-47ac-91ea-bf7357f2dfad"
    ## Environment variables can be used as tags, and throughout the config file
    # user = "$USER"
-   switch_id = "b1668a18-7659-47ac-91ea-bf7357f2dfad"
 
    ...
 

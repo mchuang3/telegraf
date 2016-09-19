@@ -183,6 +183,7 @@ var header = `# Telegraf Configuration
 [global_tags]
   # dc = "us-east-1" # will tag all metrics with dc=us-east-1
   # rack = "1a"
+  # switch = "00000000-0000-0000-0000-000000000000"
   ## Environment variables can be used as tags, and throughout the config file
   # user = "$USER"
 
