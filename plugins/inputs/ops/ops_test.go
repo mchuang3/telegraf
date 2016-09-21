@@ -52,6 +52,7 @@ func ovsdbGetSchema(client *rpc2.Client, params []interface{}, reply *interface{
 	iface.Columns = make(map[string]db.ColumnSchema)
 	iface.Columns["name"] = db.ColumnSchema{"", "string", false, false}
 	iface.Columns["type"] = db.ColumnSchema{"", "string", false, true}
+	iface.Columns["link_state"] = db.ColumnSchema{"", "string", false, true}
 	iface.Columns["statistics"] = db.ColumnSchema{"", "map", false, true}
 
 	var resp db.DatabaseSchema
@@ -157,6 +158,11 @@ var stats_1 = map[string]interface{}{
 	"ipv6_mc_tx_packets": float64(338682),
 }
 
+var stats_2 = map[string]interface{}{
+	"rx_packets": float64(123),
+	"rx_bytes":   float64(0),
+}
+
 var stats_24_3 = map[string]interface{}{
 	"rx_packets":         float64(128467827638694),
 	"rx_bytes":           float64(34384389),
@@ -191,14 +197,25 @@ func setupDefaultTables() {
 	row["_uuid"] = db.UUID{GoUuid: uuidPkg.New()}
 	row["name"] = "1"
 	row["type"] = "system"
+	row["link_state"] = "up"
 	statsMap, _ := db.NewOvsMap(stats_1)
 	row["statistics"] = statsMap
 	simInterfaceTbl["1"] = row
 
 	row = make(map[string]interface{})
 	row["_uuid"] = db.UUID{GoUuid: uuidPkg.New()}
+	row["name"] = "2"
+	row["type"] = "system"
+	row["link_state"] = "down"
+	statsMap, _ = db.NewOvsMap(stats_2)
+	row["statistics"] = statsMap
+	simInterfaceTbl["2"] = row
+
+	row = make(map[string]interface{})
+	row["_uuid"] = db.UUID{GoUuid: uuidPkg.New()}
 	row["name"] = "24-3"
 	row["type"] = "system"
+	row["link_state"] = "up"
 	statsMap, _ = db.NewOvsMap(stats_24_3)
 	row["statistics"] = statsMap
 	simInterfaceTbl["24-3"] = row
@@ -207,6 +224,7 @@ func setupDefaultTables() {
 	row["_uuid"] = db.UUID{GoUuid: uuidPkg.New()}
 	row["name"] = "bridge_normal"
 	row["type"] = "internal"
+	row["link_state"] = "up"
 	statsMap, _ = db.NewOvsMap(stats_bridge_normal)
 	row["statistics"] = statsMap
 	simInterfaceTbl["bridge_normal"] = row
@@ -215,6 +233,7 @@ func setupDefaultTables() {
 	row["_uuid"] = db.UUID{GoUuid: uuidPkg.New()}
 	row["name"] = "lo"
 	row["type"] = "loopback"
+	row["link_state"] = "up"
 	statsMap, _ = db.NewOvsMap(stats_lo)
 	row["statistics"] = statsMap
 	simInterfaceTbl["lo"] = row
@@ -293,6 +312,9 @@ func TestOpsGatherStats(t *testing.T) {
 
 	require.NoError(t, err)
 
+	// There should only be two data points since
+	// port 2 is link down, and bridge_normal
+	// and lo interfaces are ignored.
 	assert.Equal(t, acc.NMetrics(), uint64(2))
 
 	acc.AssertContainsTaggedFields(t, "port_stats", stats_1,

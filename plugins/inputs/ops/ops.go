@@ -83,6 +83,7 @@ func (s *OpsStats) Gather(acc telegraf.Accumulator) error {
 		"_uuid",
 		"name",
 		"type",
+		"link_state",
 		"statistics",
 	}
 	cond := db.NewCondition("_uuid", "!=", db.UUID{GoUuid: "00000000-0000-0000-0000-000000000000"})
@@ -100,15 +101,18 @@ func (s *OpsStats) Gather(acc telegraf.Accumulator) error {
 
 	now := time.Now()
 	for _, row := range reply[0].Rows {
-
 		// Skip non-'system' interfaces, e.g. loopback, internal, etc.
 		if ifType, ok := row.Fields["type"]; ok {
 			if ifType.(string) != "system" {
 				continue
 			}
 		}
-
-		// TODO - skip interfaces that are unlinked.
+		// Skip interfaces that are unlinked.
+		if link, ok := row.Fields["link_state"]; ok {
+			if link.(string) != "up" {
+				continue
+			}
+		}
 
 		ifName := row.Fields["name"].(string)
 		stats, ok := row.Fields["statistics"]
