@@ -108,6 +108,8 @@ func (s *OpsStats) Gather(acc telegraf.Accumulator) error {
 			}
 		}
 
+		// TODO - skip interfaces that are unlinked.
+
 		ifName := row.Fields["name"].(string)
 		stats, ok := row.Fields["statistics"]
 		if !ok {
@@ -117,26 +119,28 @@ func (s *OpsStats) Gather(acc telegraf.Accumulator) error {
 
 		statsMap := stats.(db.OvsMap)
 
-		tags := map[string]string{}
-		tags["port"] = ifName
+		tags := map[string]string{
+			"port": ifName,
+		}
 
-		fieldsC := map[string]interface{}{}
-		fieldsC["rx_packets"] = statsMap.GoMap["rx_packets"]
-		fieldsC["rx_bytes"] = statsMap.GoMap["rx_bytes"]
-		fieldsC["rx_errors"] = statsMap.GoMap["rx_errors"]
-		fieldsC["tx_packets"] = statsMap.GoMap["tx_packets"]
-		fieldsC["tx_bytes"] = statsMap.GoMap["tx_bytes"]
-		fieldsC["tx_errors"] = statsMap.GoMap["tx_errors"]
-		fieldsC["ipv4_uc_rx_packets"] = statsMap.GoMap["ipv4_uc_rx_packets"]
-		fieldsC["ipv4_uc_tx_packets"] = statsMap.GoMap["ipv4_uc_tx_packets"]
-		fieldsC["ipv4_mc_rx_packets"] = statsMap.GoMap["ipv4_mc_rx_packets"]
-		fieldsC["ipv4_mc_tx_packets"] = statsMap.GoMap["ipv4_mc_tx_packets"]
-		fieldsC["ipv6_uc_rx_packets"] = statsMap.GoMap["ipv6_uc_rx_packets"]
-		fieldsC["ipv6_uc_tx_packets"] = statsMap.GoMap["ipv6_uc_tx_packets"]
-		fieldsC["ipv6_mc_rx_packets"] = statsMap.GoMap["ipv6_mc_rx_packets"]
-		fieldsC["ipv6_mc_tx_packets"] = statsMap.GoMap["ipv6_mc_tx_packets"]
+		fields := map[string]interface{}{
+			"rx_packets":         statsMap.GoMap["rx_packets"],
+			"rx_bytes":           statsMap.GoMap["rx_bytes"],
+			"rx_errors":          statsMap.GoMap["rx_errors"],
+			"tx_packets":         statsMap.GoMap["tx_packets"],
+			"tx_bytes":           statsMap.GoMap["tx_bytes"],
+			"tx_errors":          statsMap.GoMap["tx_errors"],
+			"ipv4_uc_rx_packets": statsMap.GoMap["ipv4_uc_rx_packets"],
+			"ipv4_uc_tx_packets": statsMap.GoMap["ipv4_uc_tx_packets"],
+			"ipv4_mc_rx_packets": statsMap.GoMap["ipv4_mc_rx_packets"],
+			"ipv4_mc_tx_packets": statsMap.GoMap["ipv4_mc_tx_packets"],
+			"ipv6_uc_rx_packets": statsMap.GoMap["ipv6_uc_rx_packets"],
+			"ipv6_uc_tx_packets": statsMap.GoMap["ipv6_uc_tx_packets"],
+			"ipv6_mc_rx_packets": statsMap.GoMap["ipv6_mc_rx_packets"],
+			"ipv6_mc_tx_packets": statsMap.GoMap["ipv6_mc_tx_packets"],
+		}
 
-		acc.AddCounter(measurement, fieldsC, tags, now)
+		acc.AddCounter(measurement, fields, tags, now)
 	}
 
 	return nil
