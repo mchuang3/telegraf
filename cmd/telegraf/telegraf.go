@@ -118,11 +118,9 @@ var svcConfig *service.Config
 
 type program struct{}
 
-func reloadLoop(stop chan struct{}, s service.Service) {
+func reloadLoop(stop chan struct{}, doneCh chan bool, s service.Service) {
 	defer func() {
-		if service.Interactive() {
-			os.Exit(0)
-		}
+		doneCh <- true
 		return
 	}()
 	reload := make(chan bool, 1)
@@ -294,14 +292,15 @@ func (p *program) Start(s service.Service) error {
 }
 func (p *program) run() {
 	stop = make(chan struct{})
-	reloadLoop(stop, srvc)
+	doneCh := make(chan bool)
+	reloadLoop(stop, doneCh, srvc)
 }
 func (p *program) Stop(s service.Service) error {
 	close(stop)
 	return nil
 }
 
-func Telegraf_Main() {
+func Telegraf_Main(stopCh chan struct{}, doneCh chan bool) {
 	if runtime.GOOS == "windows" {
 		svcConfig = &service.Config{
 			Name:        "telegraf",
@@ -325,7 +324,6 @@ func Telegraf_Main() {
 			logger.Error(err)
 		}
 	} else {
-		stop = make(chan struct{})
-		reloadLoop(stop, nil)
+		reloadLoop(stopCh, doneCh, nil)
 	}
 }
