@@ -54,6 +54,7 @@ func ovsdbGetSchema(client *rpc2.Client, params []interface{}, reply *interface{
 	iface.Columns["type"] = db.ColumnSchema{"", "string", false, true}
 	iface.Columns["link_state"] = db.ColumnSchema{"", "string", false, true}
 	iface.Columns["statistics"] = db.ColumnSchema{"", "map", false, true}
+	iface.Columns["external_ids"] = db.ColumnSchema{"", "map", false, true}
 
 	var resp db.DatabaseSchema
 	resp.Tables = make(map[string]db.TableSchema)
@@ -200,6 +201,10 @@ func setupDefaultTables() {
 	row["link_state"] = "up"
 	statsMap, _ := db.NewOvsMap(stats_1)
 	row["statistics"] = statsMap
+	extIds := make(map[string]string)
+	extIds["role"] = "local"
+	extIdsMap, _ := db.NewOvsMap(extIds)
+	row["external_ids"] = *extIdsMap
 	simInterfaceTbl["1"] = row
 
 	row = make(map[string]interface{})
@@ -209,6 +214,9 @@ func setupDefaultTables() {
 	row["link_state"] = "down"
 	statsMap, _ = db.NewOvsMap(stats_2)
 	row["statistics"] = statsMap
+	extIds["role"] = "local"
+	extIdsMap, _ = db.NewOvsMap(extIds)
+	row["external_ids"] = *extIdsMap
 	simInterfaceTbl["2"] = row
 
 	row = make(map[string]interface{})
@@ -218,6 +226,9 @@ func setupDefaultTables() {
 	row["link_state"] = "up"
 	statsMap, _ = db.NewOvsMap(stats_24_3)
 	row["statistics"] = statsMap
+	extIds["role"] = "uplink"
+	extIdsMap, _ = db.NewOvsMap(extIds)
+	row["external_ids"] = *extIdsMap
 	simInterfaceTbl["24-3"] = row
 
 	row = make(map[string]interface{})
@@ -318,9 +329,9 @@ func TestOpsGatherStats(t *testing.T) {
 	assert.Equal(t, acc.NMetrics(), uint64(2))
 
 	acc.AssertContainsTaggedFields(t, "port_stats", stats_1,
-		map[string]string{"port": "1"})
+		map[string]string{"port": "1", "role": "local"})
 	acc.AssertContainsTaggedFields(t, "port_stats", stats_24_3,
-		map[string]string{"port": "24-3"})
+		map[string]string{"port": "24-3", "role": "uplink"})
 
 	o.Disconnect()
 }

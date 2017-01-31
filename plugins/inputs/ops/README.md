@@ -54,15 +54,16 @@ Currently, the following measurements are collected from each interface:
 
  - globally set **switch_id**
  - interface **name**
+ - interface **role** (e.g. "uplink", "local", "bmc", etc.)
 
 ### Example Output:
 
 ```
 % ./telegraf -config ./telegraf.conf -test
 * Plugin: ops, Collection 1
-> ops,host=switch,port=47,switch_id=b1668a18-7659-47ac-91ea-bf7357f2dfad ipv4_mc_rx_packets=0,ipv4_mc_tx_packets=0,ipv4_uc_rx_packets=0,ipv4_uc_tx_packets=0,ipv6_mc_rx_packets=0,ipv6_mc_tx_packets=0,ipv6_uc_rx_packets=0,ipv6_uc_tx_packets=0,rx_bytes=0,rx_errors=0,rx_packets=0,tx_bytes=0,tx_errors=0,tx_packets=0 1474300899000000000
-> ops,host=switch,port=26,switch_id=b1668a18-7659-47ac-91ea-bf7357f2dfad ipv4_mc_rx_packets=0,ipv4_mc_tx_packets=0,ipv4_uc_rx_packets=0,ipv4_uc_tx_packets=0,ipv6_mc_rx_packets=0,ipv6_mc_tx_packets=0,ipv6_uc_rx_packets=0,ipv6_uc_tx_packets=0,rx_bytes=0,rx_errors=0,rx_packets=0,tx_bytes=0,tx_errors=0,tx_packets=0 1474300899000000000
-> ops,host=switch,port=13,switch_id=b1668a18-7659-47ac-91ea-bf7357f2dfad ipv4_mc_rx_packets=0,ipv4_mc_tx_packets=0,ipv4_uc_rx_packets=0,ipv4_uc_tx_packets=0,ipv6_mc_rx_packets=0,ipv6_mc_tx_packets=0,ipv6_uc_rx_packets=0,ipv6_uc_tx_packets=0,rx_bytes=0,rx_errors=0,rx_packets=0,tx_bytes=0,tx_errors=0,tx_packets=0 1474300899000000000
-> ops,host=switch,port=8,switch_id=b1668a18-7659-47ac-91ea-bf7357f2dfad ipv4_mc_rx_packets=0,ipv4_mc_tx_packets=0,ipv4_uc_rx_packets=0,ipv4_uc_tx_packets=0,ipv6_mc_rx_packets=0,ipv6_mc_tx_packets=0,ipv6_uc_rx_packets=0,ipv6_uc_tx_packets=0,rx_bytes=0,rx_errors=0,rx_packets=0,tx_bytes=0,tx_errors=0,tx_packets=0 1474300899000000000
+> ops,host=switch,port=47,role=uplink,switch_id=b1668a18-7659-47ac-91ea-bf7357f2dfad ipv4_mc_rx_packets=0,ipv4_mc_tx_packets=0,ipv4_uc_rx_packets=0,ipv4_uc_tx_packets=0,ipv6_mc_rx_packets=0,ipv6_mc_tx_packets=0,ipv6_uc_rx_packets=0,ipv6_uc_tx_packets=0,rx_bytes=0,rx_errors=0,rx_packets=0,tx_bytes=0,tx_errors=0,tx_packets=0 1474300899000000000
+> ops,host=switch,port=26,role=local,switch_id=b1668a18-7659-47ac-91ea-bf7357f2dfad ipv4_mc_rx_packets=0,ipv4_mc_tx_packets=0,ipv4_uc_rx_packets=0,ipv4_uc_tx_packets=0,ipv6_mc_rx_packets=0,ipv6_mc_tx_packets=0,ipv6_uc_rx_packets=0,ipv6_uc_tx_packets=0,rx_bytes=0,rx_errors=0,rx_packets=0,tx_bytes=0,tx_errors=0,tx_packets=0 1474300899000000000
+> ops,host=switch,port=13,role=local,switch_id=b1668a18-7659-47ac-91ea-bf7357f2dfad ipv4_mc_rx_packets=0,ipv4_mc_tx_packets=0,ipv4_uc_rx_packets=0,ipv4_uc_tx_packets=0,ipv6_mc_rx_packets=0,ipv6_mc_tx_packets=0,ipv6_uc_rx_packets=0,ipv6_uc_tx_packets=0,rx_bytes=0,rx_errors=0,rx_packets=0,tx_bytes=0,tx_errors=0,tx_packets=0 1474300899000000000
+> ops,host=switch,port=8,role=local,switch_id=b1668a18-7659-47ac-91ea-bf7357f2dfad ipv4_mc_rx_packets=0,ipv4_mc_tx_packets=0,ipv4_uc_rx_packets=0,ipv4_uc_tx_packets=0,ipv6_mc_rx_packets=0,ipv6_mc_tx_packets=0,ipv6_uc_rx_packets=0,ipv6_uc_tx_packets=0,rx_bytes=0,rx_errors=0,rx_packets=0,tx_bytes=0,tx_errors=0,tx_packets=0 1474300899000000000
 ...
 ```

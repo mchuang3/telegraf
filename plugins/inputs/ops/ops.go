@@ -85,6 +85,7 @@ func (s *OpsStats) Gather(acc telegraf.Accumulator) error {
 		"type",
 		"link_state",
 		"statistics",
+		"external_ids",
 	}
 	cond := db.NewCondition("_uuid", "!=", db.UUID{GoUuid: "00000000-0000-0000-0000-000000000000"})
 	op := db.Operation{
@@ -115,16 +116,25 @@ func (s *OpsStats) Gather(acc telegraf.Accumulator) error {
 		}
 
 		ifName := row.Fields["name"].(string)
+
+		role := "none"
+		if extIds, ok := row.Fields["external_ids"]; ok {
+			idMap := extIds.(db.OvsMap).GoMap
+			if r, ok := idMap["role"].(string); ok {
+				role = r
+			}
+		}
+
 		stats, ok := row.Fields["statistics"]
 		if !ok {
 			log.Printf("Interface %v statistics missing", ifName)
 			continue
 		}
-
 		statsMap := stats.(db.OvsMap)
 
 		tags := map[string]string{
 			"port": ifName,
+			"role": role,
 		}
 
 		fields := map[string]interface{}{
