@@ -9,7 +9,9 @@ import (
 	"time"
 
 	"github.com/mchuang3/telegraf"
+
 	// TODO remove
+	"github.com/influxdata/influxdb/client/v2"
 )
 
 const MaxInt = int(^uint(0) >> 1)
