@@ -28,7 +28,7 @@ in the **[global_tags]** field in telegraf.conf:
 
    ## Switch Namespace
    namespace = "swns"
-````
+```
 
 ### Measurements & Fields:
 

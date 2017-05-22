@@ -25,7 +25,7 @@ type OpsStats struct {
 func connectDB(s *OpsStats) bool {
 	handle, err := db.Dial("unix", s.OvsdbSocket)
 	if err != nil {
-		log.Printf("telegraf OPS plugin OVSDB client dial failed: %v", err)
+		log.Printf("E! telegraf OPS plugin OVSDB client dial failed: %v", err)
 		return false
 	}
 	s.client = handle
@@ -42,7 +42,7 @@ func dbTransact(ovs *db.OvsdbClient, ops ...db.Operation) ([]db.OperationResult,
 	for i, o := range reply {
 		if o.Error != "" {
 			if i < len(ops) {
-				log.Printf("dbTransact Ops %v failed: %v", i, ops[i])
+				log.Printf("E! dbTransact Ops %v failed: %v", i, ops[i])
 			}
 			return reply, fmt.Errorf("Transaction failed: %v (%v)", o.Error, o.Details)
 		}
@@ -127,7 +127,7 @@ func (s *OpsStats) Gather(acc telegraf.Accumulator) error {
 
 		stats, ok := row.Fields["statistics"]
 		if !ok {
-			log.Printf("Interface %v statistics missing", ifName)
+			log.Printf("W! Interface %v statistics missing", ifName)
 			continue
 		}
 		statsMap := stats.(db.OvsMap)
