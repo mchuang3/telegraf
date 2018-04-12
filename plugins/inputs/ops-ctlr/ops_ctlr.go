@@ -30,6 +30,7 @@ func connectDB(s *OpsCtlrStats) bool {
 		Auth: []ssh.AuthMethod{
 			ssh.Password(s.Password),
 		},
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
 	}
 
 	conn, err := ssh.Dial("tcp", s.MgmtAddress+":22", config)
