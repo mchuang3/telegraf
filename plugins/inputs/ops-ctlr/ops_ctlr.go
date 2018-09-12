@@ -1,4 +1,4 @@
-package ops
+package ops_ctlr
 
 import (
 	"encoding/json"

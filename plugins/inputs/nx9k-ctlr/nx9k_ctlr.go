@@ -1,4 +1,4 @@
-package ops
+package nx9k_ctlr
 
 import (
 	"bytes"
