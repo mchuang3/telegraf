@@ -24,6 +24,7 @@ type Nx9kCtlrStats struct {
 	MgmtAddress string `toml:"mgmt_address"`
 	Username    string `toml:"username"`
 	Password    string `toml:"password"`
+	Simulation  bool   `toml:"simulation"`
 }
 
 func connectDB(s *Nx9kCtlrStats) bool {
@@ -49,6 +50,7 @@ var sampleConfig = `
   mgmt_address = "10.0.0.5"
   username = "admin"
   password = "admin123"
+  simulation = false
 `
 
 func (_ *Nx9kCtlrStats) SampleConfig() string {
@@ -200,6 +202,10 @@ func normalizeStats(stat interface{}) float64 {
 }
 
 func (s *Nx9kCtlrStats) Gather(acc telegraf.Accumulator) error {
+	if s.Simulation {
+		return gatherSimStats(acc)
+	}
+
 	if !s.connected {
 		if !connectDB(s) {
 			return fmt.Errorf("Failed to connect to Cisco NX9K Switch")
