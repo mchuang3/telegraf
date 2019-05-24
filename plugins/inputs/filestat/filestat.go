@@ -48,7 +48,6 @@ func (_ *FileStat) Description() string {
 func (_ *FileStat) SampleConfig() string { return sampleConfig }
 
 func (f *FileStat) Gather(acc telegraf.Accumulator) error {
-	var errS string
 	var err error
 
 	for _, filepath := range f.Files {
@@ -56,7 +55,7 @@ func (f *FileStat) Gather(acc telegraf.Accumulator) error {
 		g, ok := f.globs[filepath]
 		if !ok {
 			if g, err = globpath.Compile(filepath); err != nil {
-				errS += err.Error() + " "
+				acc.AddError(err)
 				continue
 			}
 			f.globs[filepath] = g
@@ -74,12 +73,16 @@ func (f *FileStat) Gather(acc telegraf.Accumulator) error {
 			continue
 		}
 
-		for fileName, fileInfo := range files {
+		for _, fileName := range files {
 			tags := map[string]string{
 				"file": fileName,
 			}
 			fields := map[string]interface{}{
 				"exists": int64(1),
+			}
+			fileInfo, err := os.Stat(fileName)
+			if os.IsNotExist(err) {
+				fields["exists"] = int64(0)
 			}
 
 			if fileInfo == nil {
@@ -87,12 +90,13 @@ func (f *FileStat) Gather(acc telegraf.Accumulator) error {
 					fileName)
 			} else {
 				fields["size_bytes"] = fileInfo.Size()
+				fields["modification_time"] = fileInfo.ModTime().UnixNano()
 			}
 
 			if f.Md5 {
 				md5, err := getMd5(fileName)
 				if err != nil {
-					errS += err.Error() + " "
+					acc.AddError(err)
 				} else {
 					fields["md5_sum"] = md5
 				}
@@ -102,9 +106,6 @@ func (f *FileStat) Gather(acc telegraf.Accumulator) error {
 		}
 	}
 
-	if errS != "" {
-		return fmt.Errorf(errS)
-	}
 	return nil
 }
 
