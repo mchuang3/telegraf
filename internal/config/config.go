@@ -554,7 +554,18 @@ func (c *Config) LoadConfig(path string) error {
 			return err
 		}
 	}
-	tbl, err := parseFile(path)
+
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return err
+	}
+
+	return c.ParseConfig(path, data)
+}
+
+// ParseConfig processes the config data and applies it to c
+func (c *Config) ParseConfig(path string, data []byte) error {
+	tbl, err := parseData(data)
 	if err != nil {
 		return fmt.Errorf("Error parsing %s, %s", path, err)
 	}
@@ -682,14 +693,9 @@ func trimBOM(f []byte) []byte {
 	return bytes.TrimPrefix(f, []byte("\xef\xbb\xbf"))
 }
 
-// parseFile loads a TOML configuration from a provided path and
-// returns the AST produced from the TOML parser. When loading the file, it
-// will find environment variables and replace them.
-func parseFile(fpath string) (*ast.Table, error) {
-	contents, err := ioutil.ReadFile(fpath)
-	if err != nil {
-		return nil, err
-	}
+// parseData returns the AST produced from the TOML parser.
+// When processing the data, it will find environment variables and replace them.
+func parseData(contents []byte) (*ast.Table, error) {
 	// ugh windows why
 	contents = trimBOM(contents)
 
