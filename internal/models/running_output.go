@@ -1,7 +1,6 @@
 package models
 
 import (
-	"log"
 	"time"
 
 	"github.com/mchuang3/telegraf"
@@ -119,8 +118,10 @@ func (ro *RunningOutput) AddMetric(m telegraf.Metric) {
 // Write writes all cached points to this output.
 func (ro *RunningOutput) Write() error {
 	nFails, nMetrics := ro.failMetrics.Len(), ro.metrics.Len()
-	log.Printf("D! Output [%s] buffer fullness: %d / %d metrics. ",
-		ro.Name, nFails+nMetrics, ro.MetricBufferLimit)
+	// TODO - this creates too much noise.  Add a way to extract
+	//        this info instead of constanly loggin.
+	//log.Printf("D! Output [%s] buffer fullness: %d / %d metrics. ",
+	//	ro.Name, nFails+nMetrics, ro.MetricBufferLimit)
 	ro.BufferSize.Incr(int64(nFails + nMetrics))
 	var err error
 	if !ro.failMetrics.IsEmpty() {
@@ -170,8 +171,10 @@ func (ro *RunningOutput) write(metrics []telegraf.Metric) error {
 	err := ro.Output.Write(metrics)
 	elapsed := time.Since(start)
 	if err == nil {
-		log.Printf("D! Output [%s] wrote batch of %d metrics in %s\n",
-			ro.Name, nMetrics, elapsed)
+		// TODO - this creates too much noise.  Add a way to extract
+		//        this info instead of constanly loggin.
+		//log.Printf("D! Output [%s] wrote batch of %d metrics in %s\n",
+		//	ro.Name, nMetrics, elapsed)
 		ro.MetricsWritten.Incr(int64(nMetrics))
 		ro.BufferSize.Incr(-int64(nMetrics))
 		ro.WriteTime.Incr(elapsed.Nanoseconds())
